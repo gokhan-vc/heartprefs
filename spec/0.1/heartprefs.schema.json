@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://w3id.org/heartprefs/0.1/schema.json",
+  "title": "HeartPrefs",
+  "description": "An open, portable, signed matching-intent document for agent-mediated matching. v0.1 (DRAFT). The matching vocabulary (self/seek/free) is the only invented surface; identity, attestation, consent and payment are thin envelopes that delegate to existing rails (DID/VC, AP2, x402). The same canonical bytes are intended to ride x402 bodies, A2A Agent-Card extensions, MCP resources, and ERC-8004 service entries.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["version", "kind", "id", "self", "seek", "free", "identity", "proof"],
+  "properties": {
+    "$schema": { "type": "string", "format": "uri" },
+    "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "description": "semver of the HeartPrefs document" },
+    "kind": { "const": "heartprefs" },
+    "id": { "type": "string", "minLength": 1, "description": "stable per-document id, e.g. urn:heartprefs:<did-or-ulid>" },
+
+    "self": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["age"],
+      "description": "who the subject is",
+      "properties": {
+        "gender": { "type": "string", "description": "open string; no enum lock-in" },
+        "age": { "type": "integer", "minimum": 18, "maximum": 120 },
+        "ethnicity": { "type": "array", "items": { "type": "string" } },
+        "kids": { "type": "string", "description": "suggested vocab: none-want-none | none-want-some | none-unsure | have-want-more | have-done" },
+        "substances": { "type": "object", "additionalProperties": { "type": "string", "description": "no | sometimes | yes" } },
+        "languages": { "type": "array", "items": { "type": "string", "description": "BCP-47 / ISO 639-1" } }
+      }
+    },
+
+    "seek": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "who and what the subject seeks; dealbreakers are HARD, ANDed filters",
+      "properties": {
+        "genders": { "type": "array", "items": { "type": "string" } },
+        "ageRange": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "min": { "type": "integer", "minimum": 18 },
+            "max": { "type": "integer", "minimum": 18 }
+          }
+        },
+        "languages": { "type": "array", "items": { "type": "string" } },
+        "ethnicities": { "type": "array", "items": { "type": "string" }, "description": "empty = no constraint" },
+        "dealbreakers": { "type": "array", "items": { "type": "string" }, "description": "hard, ANDed exclusion terms" }
+      }
+    },
+
+    "free": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "free-text. `desire` and `boundaries` are GATED keys: omitted from the public projection, served only after identity proof + payment.",
+      "properties": {
+        "about": { "type": "string" },
+        "seeking": { "type": "string" },
+        "values": { "type": "string" },
+        "interests": { "type": "string" },
+        "logistics": { "type": "string" },
+        "desire": { "type": "string" },
+        "boundaries": { "type": "string" }
+      }
+    },
+
+    "identity": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["subject"],
+      "description": "binding block 1 — who controls this document",
+      "properties": {
+        "subject": { "type": "string", "description": "DID (did:pkh:eip155:<chain>:<addr> or did:web) of the signing key; MUST equal proof.verificationMethod" },
+        "agentId": { "type": "integer", "description": "optional ERC-8004 agent token id" },
+        "agentRegistry": { "type": "string", "description": "optional CAIP-10 of the ERC-8004 IdentityRegistry" },
+        "registrationUri": { "type": "string", "description": "optional ERC-8004 registration file listing this doc as a service" }
+      }
+    },
+
+    "attestation": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "binding block 2 — proof of adulthood by selective disclosure (no date of birth)",
+      "properties": {
+        "ageOver18": { "type": "boolean", "description": "fast-filter summary; the credential is the source of truth" },
+        "credential": { "type": "object", "description": "a W3C Verifiable Presentation (VC Data Model 2.0) disclosing ONLY the ageOver18 predicate" }
+      }
+    },
+
+    "consent": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "binding block 3 — standing/delegated access (choose ONE scheme)",
+      "properties": {
+        "scheme": { "type": "string", "enum": ["ap2-intent", "eip191-allowance"] },
+        "intentMandate": { "type": "object", "description": "an AP2 IntentMandate (when scheme=ap2-intent)" },
+        "allowance": { "type": "object", "description": "a signed metered allowance (when scheme=eip191-allowance)" }
+      }
+    },
+
+    "payment": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "binding block 4 — an x402 PaymentRequirements quote to read/submit/subscribe (settlement happens out of band)",
+      "properties": {
+        "x402Version": { "type": "integer" },
+        "accepts": { "type": "array", "items": { "type": "object" } }
+      }
+    },
+
+    "ext": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "permissionless extension bag; consumers MUST ignore unknown keys, never reject"
+    },
+
+    "proof": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["type", "verificationMethod", "signature"],
+      "description": "detached signature over RFC 8785 (JCS) canonicalization of the document with `proof.signature` removed",
+      "properties": {
+        "type": { "type": "string", "description": "e.g. EIP191" },
+        "verificationMethod": { "type": "string", "description": "MUST equal identity.subject" },
+        "created": { "type": "string", "format": "date-time" },
+        "nonce": { "type": "string" },
+        "signature": { "type": "string" }
+      }
+    }
+  }
+}

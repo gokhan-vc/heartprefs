@@ -1,0 +1,43 @@
+{
+  "$schema": "https://w3id.org/heartprefs/0.1/schema.json",
+  "version": "0.1.0",
+  "kind": "heartprefs",
+  "id": "urn:heartprefs:01J9X8ZK3M0EXAMPLE0000",
+  "self": {
+    "gender": "woman",
+    "age": 31,
+    "ethnicity": ["turkish"],
+    "kids": "none-want-some",
+    "substances": { "alcohol": "sometimes", "tobacco": "never" },
+    "languages": ["tr", "en"]
+  },
+  "seek": {
+    "genders": ["man"],
+    "ageRange": { "min": 30, "max": 45 },
+    "languages": ["en"],
+    "ethnicities": [],
+    "dealbreakers": ["smoking", "wants-no-kids"]
+  },
+  "free": {
+    "about": "Lives by the tide charts; happiest cooking for friends.",
+    "seeking": "Someone kind, curious, and game for a long walk.",
+    "values": "Honesty, slowness, loyalty.",
+    "interests": "Sailing, ceramics, cold-water swimming.",
+    "logistics": "Istanbul; open to relocating for the right person.",
+    "desire": "",
+    "boundaries": ""
+  },
+  "identity": {
+    "subject": "did:pkh:eip155:8453:0x36De990133D36d7E3Df9a820aA3eDe5a2320De71"
+  },
+  "attestation": {
+    "ageOver18": true
+  },
+  "proof": {
+    "type": "EIP191",
+    "verificationMethod": "did:pkh:eip155:8453:0x36De990133D36d7E3Df9a820aA3eDe5a2320De71",
+    "created": "2026-06-30T00:00:00Z",
+    "nonce": "0f3a1c2b",
+    "signature": "0x<personal_sign over RFC8785-JCS of this document with proof.signature removed>"
+  }
+}
