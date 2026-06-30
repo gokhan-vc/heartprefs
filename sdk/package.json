@@ -1,0 +1,66 @@
+{
+  "name": "@heartprefs/sdk",
+  "version": "0.1.0",
+  "description": "Author, sign (EIP-191 over RFC-8785 JCS), verify, validate, and match HeartPrefs v0.1 matching-intent documents.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "SKILL.md",
+    "LICENSE",
+    "README.md"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "prepublishOnly": "npm run typecheck && npm run test && npm run build"
+  },
+  "keywords": [
+    "heartprefs",
+    "matching",
+    "eip-191",
+    "rfc-8785",
+    "jcs",
+    "viem",
+    "did",
+    "agent",
+    "x402"
+  ],
+  "author": "Atelier Gökhan / Numetal",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gokhan-vc/heartprefs.git",
+    "directory": "sdk"
+  },
+  "homepage": "https://github.com/gokhan-vc/heartprefs/tree/main/sdk#readme",
+  "bugs": {
+    "url": "https://github.com/gokhan-vc/heartprefs/issues"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "canonicalize": "^2.1.0",
+    "viem": "^2.21.0"
+  },
+  "devDependencies": {
+    "tsup": "^8.5.0",
+    "typescript": "^5.6.0",
+    "vitest": "^3.0.0"
+  }
+}
