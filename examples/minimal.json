@@ -1,5 +1,6 @@
 {
   "$schema": "https://w3id.org/heartprefs/0.1/schema.json",
+  "_note": "ILLUSTRATIVE EXAMPLE ONLY. All values here — including the address in identity.subject / proof.verificationMethod (the all-zero placeholder address) and the id, nonce, and signature — are non-real placeholders. Do NOT reuse them; substitute your own DID, signing key, and signature.",
   "version": "0.1.0",
   "kind": "heartprefs",
   "id": "urn:heartprefs:01J9X8ZK3M0EXAMPLE0000",
@@ -28,14 +29,14 @@
     "boundaries": ""
   },
   "identity": {
-    "subject": "did:pkh:eip155:8453:0x36De990133D36d7E3Df9a820aA3eDe5a2320De71"
+    "subject": "did:pkh:eip155:8453:0x0000000000000000000000000000000000000000"
   },
   "attestation": {
     "ageOver18": true
   },
   "proof": {
     "type": "EIP191",
-    "verificationMethod": "did:pkh:eip155:8453:0x36De990133D36d7E3Df9a820aA3eDe5a2320De71",
+    "verificationMethod": "did:pkh:eip155:8453:0x0000000000000000000000000000000000000000",
     "created": "2026-06-30T00:00:00Z",
     "nonce": "0f3a1c2b",
     "signature": "0x<personal_sign over RFC8785-JCS of this document with proof.signature removed>"
