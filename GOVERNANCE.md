@@ -23,4 +23,4 @@ Changes to the spec go through a numbered HIP process modeled on EIP-1 and the M
 The schema `$id` is version-pathed (`/0.1/`, `/0.2/`, …) so newer versions never break existing holders. Consumers MUST ignore unknown members rather than reject them. v0.1 is **draft** — field names and bindings may change until v1.0.
 
 ## Contact
-Open an issue or PR. Maintainer contact: ***REDACTED-EMAIL***.
+Proposals, questions, and discussion go through the repository's issue tracker: <https://github.com/gokhan-vc/heartprefs/issues> (open an issue or a PR). For contact by email, use `contact@gokhan.vc`.
